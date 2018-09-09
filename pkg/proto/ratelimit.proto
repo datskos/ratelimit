@@ -1,0 +1,27 @@
+syntax = "proto3";
+package pkg.proto;
+option go_package = "proto";
+option cc_generic_services = true;
+
+service RateLimitService {
+  rpc Reduce(ReduceRequest) returns (ReduceResponse) {}
+}
+
+message ReduceRequest {
+  string key = 1;
+  uint32 maxAmount = 2;
+  uint32 refillAmount = 3;
+  uint32 refillDurationSec = 4;
+}
+
+message ReduceResponse {
+  enum Status {
+    UNKNOWN = 0;
+    ERROR = 1;
+    OK = 2;
+    NG = 3;
+  }
+
+  Status status = 1;
+  uint32 remaining = 2;
+}
